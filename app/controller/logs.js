@@ -12,7 +12,8 @@ class LogsController extends Controller {
   async add () {
     const { ctx, service } = this;
 
-    let query = ctx.request.body;
+    const data = ctx.request.body;
+    const result = await ctx.service.logs.addData(data);
     console.log(query)
     ctx.body = query
   }
