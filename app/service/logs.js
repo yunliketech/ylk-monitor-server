@@ -25,7 +25,7 @@ class LogsService extends Service {
 
     const result = await this.app.mysql.query("INSERT INTO c_logs (time, device, log) VALUES ?", [list])
 
-    console.log(result)
+    return { result };
   }
 }
 module.exports = LogsService;

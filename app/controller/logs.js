@@ -14,8 +14,7 @@ class LogsController extends Controller {
 
     const data = ctx.request.body;
     const result = await ctx.service.logs.addData(data);
-    console.log(query)
-    ctx.body = query
+    ctx.body = result
   }
 }
 
