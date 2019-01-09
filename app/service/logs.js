@@ -4,14 +4,16 @@ const Service = require('egg').Service;
 
 class LogsService extends Service {
   async addData (data) {
-    const list = []
+    const list = [], listError = [], listDiy = [], listPerformance = [];
 
+    console.log(list)
     for (let i = 0; i < data.log.length; i++) {
-      list.push([data.time, data.device, JSON.stringify(data.log[i]), data.log[i].type], 1);
+      list.push([data.time, data.device, JSON.stringify(data.log[i]), data.log[i].type, 1]);
     }
     console.log("查询", list)
     // 总表输入
     const result = await this.app.mysql.query("INSERT INTO c_logs (time, device, log, type, project_id) VALUES ?", [list])
+    // 分表插入
 
     return { result };
   }
