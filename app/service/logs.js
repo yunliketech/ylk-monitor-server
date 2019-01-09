@@ -10,7 +10,7 @@ class LogsService extends Service {
       list.push([data.time, data.device, JSON.stringify(data.log[i]), data.log[i].type], 1);
     }
     console.log("查询", list)
-
+    // 总表输入
     const result = await this.app.mysql.query("INSERT INTO c_logs (time, device, log, type, project_id) VALUES ?", [list])
 
     return { result };
