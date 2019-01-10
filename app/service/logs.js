@@ -83,26 +83,63 @@ class LogsService extends Service {
     return { result };
   }
 
-
   async serachData (data) {
-
     console.log(data);
     const pageNum = data.pageNum
     const pageSize = data.pageSize
-    const type = data.type;
+    // 0-diy ,1-performance,2-error , -1全部
+    const type = data.type == 0 ? "DIY" : data.type == 1 ? "performance" : data.type == 2 ? "error" : data.type;
+    let result;
+    let count;
 
-    const result = await this.app.mysql.select('c_logs', {
-      where: { type: 'DIY' }, // WHERE 条件
-      limit: Number(pageSize), // 返回数据量
-      offset: pageNum == 1 ? 0 : Number(pageNum * pageSize), // 数据偏移量
-    })
-
-    // for循环返回数据至前端数据
-    for (let i = 0; i < result.length; i++) {
-      result[i].log = JSON.parse(result[i].log);
+    switch (type) {
+      case "DIY":
+        // 查询表中数据
+        result = await this.app.mysql.select('c_logs_diy', {
+          limit: Number(pageSize), // 返回数据量
+          offset: pageNum == 1 ? 0 : Number(pageNum * pageSize), // 数据偏移量
+        })
+        // 查询数据总量
+        count = await this.app.mysql.query(SqlLogs.countDiy);
+        count = count[0]["count(*)"];
+        break;
+      case "performance":
+        // 查询表中数据
+        result = await this.app.mysql.select('c_logs_performance', {
+          limit: Number(pageSize), // 返回数据量
+          offset: pageNum == 1 ? 0 : Number(pageNum * pageSize), // 数据偏移量
+        })
+        // 查询数据总量
+        count = await this.app.mysql.query(SqlLogs.countPerformance);
+        count = count[0]["count(*)"];
+        break;
+      case "error":
+        // 查询表中数据
+        result = await this.app.mysql.select('c_logs_error', {
+          limit: Number(pageSize), // 返回数据量
+          offset: pageNum == 1 ? 0 : Number(pageNum * pageSize), // 数据偏移量
+        })
+        // 查询数据总量
+        count = await this.app.mysql.query(SqlLogs.countError);
+        count = count[0]["count(*)"];
+        break;
+      default:
+        // 查询表中数据
+        result = await this.app.mysql.select('c_logs', {
+          limit: Number(pageSize), // 返回数据量
+          offset: pageNum == 1 ? 0 : Number(pageNum * pageSize), // 数据偏移量
+        })
+        // 查询数据总量
+        count = await this.app.mysql.query(SqlLogs.countAll);
+        count = count[0]["count(*)"];
+        // for循环返回数据至前端数据 - 制造json数据
+        for (let i = 0; i < result.length; i++) {
+          result[i].log = JSON.parse(result[i].log);
+        }
+        break;
     }
 
-    return { result };
+    return { result, count };
   }
 
 }

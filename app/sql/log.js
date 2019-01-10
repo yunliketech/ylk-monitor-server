@@ -7,7 +7,11 @@ const SqlLogs = {
     "domainLookupStart, domainLookupEnd, connectStart, connectEnd, secureConnectionStart, requestStart, responseStart, " +
     "responseEnd, domLoading, domInteractive, domContentLoadedEventStart, domContentLoadedEventEnd, domComplete, loadEventStart, loadEventEnd, " +
     "logRequestTime, logDomTime, logWhiteScreenTime, logDomReadyTime, logOnLoadTime, logFirstReadyTime, logTTI, logDurationTime, " +
-    "logFetchTime, logOnRenderTime) VALUES ?"
+    "logFetchTime, logOnRenderTime) VALUES ?",
+  countAll: "select count(*) from c_logs",
+  countDiy: "select count(*) from c_logs_diy",
+  countError: "select count(*) from c_logs_error",
+  countPerformance: "select count(*) from c_logs_performance",
 };
 
 module.exports = SqlLogs;
