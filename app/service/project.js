@@ -1,5 +1,6 @@
 'use strict';
 const Service = require('egg').Service;
+const SqlProject = require('../sql/project');
 
 class ProjectService extends Service {
   async add (data) {
@@ -11,7 +12,7 @@ class ProjectService extends Service {
   }
 
   async id () {
-    const result = await this.app.mysql.query('select count(*) from c_project');
+    const result = await this.app.mysql.query(SqlProject.countProject);
     const projectId = result[0]["count(*)"] + 1
     return projectId;
   }
