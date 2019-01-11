@@ -8,6 +8,7 @@ coverage/
 .idea/
 run/
 config/config.default.js
+config/config.mysql.js
 .DS_Store
 *.sw*
 *.un~
